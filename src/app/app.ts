@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { ListaProdutos } from './components/lista-produtos/lista-produtos';
+import { ListaProdutos } from './features/produtos/lista-produtos/lista-produtos';
+
 
 @Component({
   selector: 'app-root',
