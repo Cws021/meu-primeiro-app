@@ -1,4 +1,4 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, effect } from '@angular/core';
 import { Produto } from '../produto/produto';
 
 @Component({
@@ -15,26 +15,49 @@ export class ListaProdutos {
     { nome: 'Fone', preco: 80 },
   ]);
 
-  totalProdutos = computed(() => this.produtos().length);// computed signal observa outro signal e se atualiza automaticamente
+  totalProdutos = computed(() => this.produtos().length); // computed signal observa outro signal e se atualiza automaticamente
 
   valorTotal = computed(() => {
     return this.produtos().reduce((total, item) => total + item.preco, 0);
   });
 
   exibirProduto(nome: string) {
-    console.log('Produto selecionado:', nome);
+    this.produtoSelecionado.set(nome);
     // Aqui você pode atualizar o estado, abrir modal, etc.
   }
+
+  produtoSelecionado = signal<string | null>(null);
+
   //update  -> adiciona um item ao writable signal
   adicionarProduto() {
-    this.produtos.update((listaAtual) => [
-      ...listaAtual, 
-      { nome: 'Teclado', preco: 250 }
-    ]);
+    this.produtos.update((listaAtual) => [...listaAtual, { nome: 'Teclado', preco: 250 }]);
   }
+
   // set -> altera um item do weitable signal
   substituirProdutos() {
-      this.produtos.set([{ nome: 'Produto novo', preco: 999 }]);
-}
-}
+    this.produtos.set([{ nome: 'Produto novo', preco: 999 }]);
+  }
 
+
+  // método construtor - formata os objetos criados a partir dessa classe
+  constructor() {
+    // effect observa alterações  realizadas no signal (que é o vetor de produtos)
+    effect(() => {
+      console.log('Lista de produtos alterada:', this.produtos());
+    });
+
+    // effect observa alterações do computed signal (valorTotal)
+    effect(() => {
+      console.log('Valor total atualizado:', this.valorTotal());
+    });
+
+    // effect observa o título da página e altera se a condição for atendida
+    effect(() => {
+      if (typeof document !== 'undefined') {
+        document.title = `(${this.totalProdutos()}) Minha Loja`;
+      }
+    });
+
+  } //fim do contructo
+  //estes effects  gera mensagens no terminal sempre que alterações são realizadas
+}
