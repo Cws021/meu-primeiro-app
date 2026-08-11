@@ -6,3 +6,4 @@ describe('PrecoFormatadoPipe', () => {
     expect(pipe).toBeTruthy();
   });
 });
+

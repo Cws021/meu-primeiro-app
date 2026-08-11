@@ -1,18 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
- body {
-    background-color: rgb(33, 143, 234);
+
+  body{
+    background-color: rgb(7, 152, 224);
     color: white;
-}
-
-a {
-    color: white;
-    text-decoration: underline;
-
-}
-
-a:hover {
-    background-color: aquamarine;
-    color: black;
-    border-radius: 5px;
-    padding: 5px;
-}
+  }

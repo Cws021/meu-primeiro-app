@@ -1,6 +1,52 @@
+<style>
+  p {
+    font-size: 18px;
+    color: rgb(198, 234, 194);
+  }
+
+  h2 {
+    color: white;
+  }
+
+  h3{
+    color: rgb(255, 249, 249);
+  }
+
+</style>
+
+
 <div class="produto-card">
   <h3>{{ nome }}</h3>
   <p>{{ preco | currency: 'BRL' }}</p>
 
-  <button (click)="selecionarProduto()">Selecionar {{ nome }}</button>
+  <button (click)="selecionarProduto()">Selecionar {{ nome }}</button> <!--Adicionou essa linha aqui-->
 </div>
+
+
+
+              
+
+<!-- 
+==============================================================
+                Aprendi ontem e hj - 04,05.08/2026
+==============================================================
+<div class="produto">
+  <h2>{{ nome | uppercase }}</h2>
+
+
+  @if (mostrarPreco) {
+   <p>Preço: {{ preco | currency:'USD' }}</p>
+  }
+ <P class="oi"> --------------------Conhecendo o a logica do for--------------------------</P>
+  @for (item of produtos; track item) {
+    <div>
+      <h3>{{ item.nome | uppercase }}</h3>
+      <p>Preco: {{ item.preco | precoFormatado }}</p>
+    </div>
+  } 
+    
+  ==============================================================
+                Aprendi ontem e hj - 04,05.08/2026
+  ==============================================================
+  
+  -->
