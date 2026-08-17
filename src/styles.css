@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
   body{
-    background-color: rgb(71, 127, 152);
+    background-color: rgb(51, 135, 180);
+    color: rgb(255, 255, 255);
+  }
+
+  h2{
     color: white;
   }

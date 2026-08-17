@@ -1,60 +1,75 @@
-
 <style>
-  h2{
+  h2,
+  p,
+  h3 {
+    color: rgb(255, 255, 255);
+  }
+</style>
+<!-- Seção de Produtos -->
+<section>
+  <h2>Produtos:</h2>
 
-    color: white;
+  @if (carregando()) {
+    <p>Carregando produtos...</p>
   }
 
-  
-</style>
- <!-- Seção de Produtos -->
-  <section>
-    <h2>Produtos:</h2>
+  @if (erro()) {
+    <p style="color: red">
+      {{ erro() }}
+    </p>
+    <button (click)="carregarProdutos()">Tentar novamente</button>
+  }
 
-    @if (carregando()) {
-      <p>Carregando produtos...</p>
+  <h2>
+    Produto selecionado:
+    @if (produtoSelecionado()) {
+      <strong style="color: rgb(6, 248, 6)">{{ produtoSelecionado() }}</strong>
+    } @else {
+      <span style="color: rgb(61, 51, 51)">Nenhum</span>
     }
-
-    @if (!carregando()) {
-      @for (item of produtos(); track item.nome) {
+  </h2>
+  <!-- Estado 3: Sucesso -->
+  @if (!carregando() && !erro()) {
+    <p>Total de produtos: {{ totalProdutos() }}</p>
+    <hr />
+    <section class="grid-produtos">
+      @for (item of produtos(); track $index) {
         <app-produto
           [nome]="item.nome"
           [preco]="item.preco"
           (produtoSelecionado)="exibirProduto($event)"
-        ></app-produto>
-
-        <button (click)="adicionarAoCarrinho(item)">Adicionar ao Carrinho</button>
+          (produtoAdicionado)="adicionarAoCarrinho($event)"
+        />
       }
-    }
+    </section>
+  }
 
-    <h2>
-      Produto selecionado:
-      @if (produtoSelecionado()) {
-        <strong style="color: green">{{ produtoSelecionado() }}</strong>
-      } @else {
-        <span style="color: gray">Nenhum</span>
-      }
-    </h2>
+  <p>
+    <button mat-raised-button color="primary" (click)="adicionarProduto()">
+      Adicionar Produto
+    </button>
+  </p>
+  <p>
+    <button mat-stroked-button color="accent" (click)="substituirProdutos()">
+      Substituir Lista
+    </button>
+  </p>
 
-    <p><button (click)="adicionarProduto()">Adicionar Produto</button></p>
+  <h2>Total de produtos: {{ totalProdutos() }}</h2>
 
-    <p><button (click)="substituirProdutos()">Substituir Lista</button></p>
+  <h3>Valor total: R$ {{ valorTotal() }}</h3>
+</section>
 
-    <h2>Total de produtos: {{ totalProdutos() }}</h2>
+<!-- Seção do Carrinho -->
+<!-- Seção do Carrinho -->
+<section>
+  <hr />
+  <h2>Carrinho:</h2>
 
-    <h3>Valor total: R$ {{ valorTotal() }}</h3>
-  </section>
+  @for (item of carrinhoService.itens(); track $index) {
+    <p>{{ item.nome }} - R$ {{ item.preco.toFixed(2) }}</p>
+  }
 
-  <!-- Seção do Carrinho -->
-  <section>
-    <hr />
-
-    <h2>Carrinho:</h2>
-
-    @for (item of carrinho(); track $index) {
-      <p>{{ item.nome }} - R$ {{ item.preco.toFixed(2) }}</p>
-    }
-
-    <p><strong>Itens no carrinho:</strong> {{ quantidadeCarrinho() }}</p>
-    <p><strong>Total do Carrinho:</strong> R$ {{ totalCarrinho().toFixed(2) }}</p>
-  </section>
+  <h3>Itens no carrinho: {{ carrinhoService.quantidade() }}</h3>
+  <h3>Total do Carrinho: R$ {{ carrinhoService.total().toFixed(2) }}</h3>
+</section>

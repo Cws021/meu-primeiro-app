@@ -1,52 +1,42 @@
 import { Component, signal, computed, effect, inject } from '@angular/core';
- import { ProdutosService } from '../produtos.service';
+import { MatButtonModule } from '@angular/material/button';
 
-
-
- 
 import { Produto } from '../produto/produto';
+import { ProdutosService } from '../../../core/services/produtos.service';
+import { CarrinhoService } from '../../../core/services/carrinho.service';
 
 @Component({
   selector: 'app-lista-produtos',
-  imports: [Produto],
+  imports: [Produto, MatButtonModule],
   templateUrl: './lista-produtos.html',
   styleUrl: './lista-produtos.css',
 })
 export class ListaProdutos {
+  private produtosService = inject(ProdutosService);
+  carrinhoService = inject(CarrinhoService);
+  quantidadeCarrinho = this.carrinhoService.quantidade;
+  totalCarrinho = this.carrinhoService.total;
   
-   private produtosService = inject(ProdutosService);
-    //========================================
-    //                   SIGNALS     
-    //=============================================
+  //========================================
+  //                   SIGNALS
+  //=============================================
   //Writesignal -> signal (reativo) que permite alterações (com set ou update)
   produtos = signal<{ nome: string; preco: number }[]>([]); //add hj (13.08.26) papai, Aprendndo API
-  
+
   carregando = signal(true);
 
   produtoSelecionado = signal<string | null>(null);
-   
-   // o começo de uma nova era (Carrinho de compras)
-  carrinho = signal<{ nome: string; preco: number }[]>([]);
- 
 
-  //computed 
+  erro = signal<string | null>(null); // Add hj (14.08.26)
+
+  //computed
   totalProdutos = computed(() => this.produtos().length); // observa outro sinal automaticamente
 
   valorTotal = computed(() => {
     return this.produtos().reduce((total, item) => total + item.preco, 0); // reduce -> pega so quem tá interessada
-  }); // essa linha faz a soma dos produtos.  
+  }); // essa linha faz a soma dos produtos.
 
- 
-  quantidadeCarrinho = computed(() => this.carrinho().length); 
-
-  totalCarrinho = computed(() => {
-    return this.carrinho().reduce((total, item) => total + item.preco, 0);
-  });
-  
-
-  
-   constructor() {
-
+  constructor() {
     // carrega da API
     this.carregarProdutos();
 
@@ -65,9 +55,9 @@ export class ListaProdutos {
     });
   } // fim do constructor
 
-
-
   carregarProdutos() {
+    this.erro.set(null); // limpa erro anterior
+
     this.carregando.set(true);
 
     this.produtosService.buscarProdutos().subscribe({
@@ -78,25 +68,15 @@ export class ListaProdutos {
       },
       error: (erro) => {
         console.error('Erro ao carregar produtos:', erro);
+        this.erro.set('Erro ao carregar produtos. Verifique sua conexão e tente novamente.');
         this.carregando.set(false);
       },
     });
   }
 
-
-
-
-
-
-
-
-
-
   exibirProduto(nome: string) {
     this.produtoSelecionado.set(nome); // Aqui você pode atualizar o estado, abrir modal, etc.
   }
-  
- 
 
   // update -> adiciona um item do writeblesignal
   adicionarProduto() {
@@ -106,18 +86,12 @@ export class ListaProdutos {
       { nome: 'Monitor Curvo', preco: 4999.99 },
     ]);
   }
-  // 
+  //
   substituirProdutos() {
     this.produtos.set([{ nome: 'Produto novo', preco: 0 }]);
-  } 
-  
-  adicionarAoCarrinho(produto: { nome: string; preco: number }) {
-    this.carrinho.update((listaAtual) => [...listaAtual, produto]);
   }
 
-  
-  
-
-
-
+  adicionarAoCarrinho(produto: { nome: string; preco: number }) {
+    this.carrinhoService.adicionar(produto);
+  }
 }
