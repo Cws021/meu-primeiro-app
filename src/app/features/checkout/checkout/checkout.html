@@ -1,20 +1,20 @@
 <h2>Checkout</h2>
 
 @if (compraFinalizada()) {
-  <p style="color: rgb(163, 235, 163)">Compra finalizada com sucesso!</p>
+  <p style="color: green">Compra finalizada com sucesso!</p>
 }
 
-@if (carrinhoService.carrinhoVazio()) {
+@if (carrinhoFacade.carrinhoVazio()) {
   <p style="color: red">Seu carrinho está vazio. Adicione produtos antes de finalizar a compra.</p>
 } @else {
   <section>
-    <h3 style="color: aliceblue;">Resumo do pedido</h3>
+    <h3>Resumo do pedido</h3>
 
-    @for (item of carrinhoService.itens(); track $index) {
-      <p style="color: aliceblue;">{{ item.nome }} - R$ {{ item.preco.toFixed(2) }}</p>
+    @for (item of carrinhoFacade.itens(); track $index) {
+      <p>{{ item.nome }} - R$ {{ item.preco.toFixed(2) }}</p>
     }
 
-    <h3 style="color: aliceblue;">Total: R$ {{ carrinhoService.total().toFixed(2) }}</h3>
+    <h3>Total: R$ {{ carrinhoFacade.total().toFixed(2) }}</h3>
   </section>
 }
 
@@ -23,15 +23,15 @@
 
   @if (formulario.get('nome')?.touched && formulario.get('nome')?.invalid) {
     @if (formulario.get('nome')?.errors?.['required']) {
-      <small style="color: red;">Nome é obrigatório</small>
+      <small>Nome é obrigatório</small>
     }
 
     @if (formulario.get('nome')?.errors?.['minlength']) {
-      <small style="color: red;">Nome deve ter no mínimo 3 caracteres</small>
+      <small>Nome deve ter no mínimo 3 caracteres</small>
     }
 
     @if (formulario.get('nome')?.errors?.['numeroInvalido']) {
-      <small style="color: red;">Nome não pode conter números</small>
+      <small>Nome não pode conter números</small>
     }
   }
 
@@ -39,11 +39,11 @@
 
   @if (formulario.get('email')?.touched && formulario.get('email')?.invalid) {
     @if (formulario.get('email')?.errors?.['required']) {
-      <small style="color: red;">Email é obrigatório</small>
+      <small>Email é obrigatório</small>
     }
 
     @if (formulario.get('email')?.errors?.['email']) {
-      <small style="color: red;">Email inválido</small>
+      <small>Email inválido</small>
     }
   }
 
@@ -51,11 +51,11 @@
 
   @if (formulario.get('endereco')?.touched && formulario.get('endereco')?.invalid) {
     @if (formulario.get('endereco')?.errors?.['required']) {
-      <small style="color: red;">Endereço é obrigatório</small>
+      <small>Endereço é obrigatório</small>
     }
 
     @if (formulario.get('endereco')?.errors?.['minlength']) {
-      <small style="color: red;">Endereço deve ter no mínimo 5 caracteres</small>
+      <small>Endereço deve ter no mínimo 5 caracteres</small>
     }
   }
 

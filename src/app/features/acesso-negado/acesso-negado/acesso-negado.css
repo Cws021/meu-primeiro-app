@@ -1,12 +1,16 @@
-.acesso-negado {
-  max-width: 600px;
-}
+  .acesso-negado {
+    max-width: 600px;
+  }
 
-.acesso-negado p {
-  line-height: 1.5;
-}
+  .acesso-negado p {
+    line-height: 1.5;
+  }
 
-button {
-  margin-top: 16px;
-  padding: 8px 16px;
-}
+  button {
+    margin-top: 16px;
+    padding: 8px 16px;
+  }
+
+  p,h3{
+    color: aliceblue;
+  }
