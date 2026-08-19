@@ -7,7 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-produto',
-  imports: [CurrencyPipe, MatButtonModule, MatCardModule],
+  imports: [CurrencyPipe, UpperCasePipe, PrecoFormatadoPipe,MatButtonModule,MatCardModule],
   templateUrl: './produto.html',
   styleUrl: './produto.css',
 })
