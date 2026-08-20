@@ -1,3 +1,20 @@
-p,h3{
- color: aliceblue;
+form {
+  max-width: 500px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+small {
+  display: block;
+  color: red;
+  margin-bottom: 8px;
+}
+
+button {
+  margin-right: 8px;
+  margin-top: 8px;
 }
