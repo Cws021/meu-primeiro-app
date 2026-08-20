@@ -1,4 +1,6 @@
+
 import { Component, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
   ReactiveFormsModule,
   FormGroup,
@@ -12,7 +14,7 @@ import { CarrinhoFacade } from '../../../core/facades/carrinho.facade';
 
 @Component({
   selector: 'app-checkout',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './checkout.html',
   styleUrl: './checkout.css',
 })
@@ -64,6 +66,5 @@ function nomeSemNumeros(control: AbstractControl): ValidationErrors | null {
   if (/\d/.test(valor)) {
     return { numeroInvalido: true };
   }
-
   return null;
 }
